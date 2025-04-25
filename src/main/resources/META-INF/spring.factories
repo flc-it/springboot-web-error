@@ -1,0 +1,2 @@
+org.springframework.boot.env.EnvironmentPostProcessor=org.flcit.springboot.web.error.ErrorAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.flcit.springboot.web.error.ErrorAutoConfiguration
