@@ -18,7 +18,7 @@ package org.flcit.springboot.web.error;
 
 import java.io.IOException;
 
-import javax.servlet.Servlet;
+import jakarta.servlet.Servlet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

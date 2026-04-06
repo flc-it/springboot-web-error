@@ -18,14 +18,19 @@ package org.flcit.springboot.web.error;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.flcit.commons.core.exception.BasicRuntimeException;
+import org.flcit.commons.core.util.ArrayUtils;
+import org.flcit.commons.core.util.ClassUtils;
+import org.flcit.commons.core.util.StringUtils;
+import org.flcit.springboot.web.error.domain.ApiErrorBase;
+import org.flcit.springboot.web.error.domain.ApiErrorTrace;
+import org.flcit.springboot.web.error.domain.ApiErrors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.TaskRejectedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.util.CollectionUtils;
@@ -41,13 +46,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import org.flcit.commons.core.exception.BasicRuntimeException;
-import org.flcit.commons.core.util.ArrayUtils;
-import org.flcit.commons.core.util.ClassUtils;
-import org.flcit.commons.core.util.StringUtils;
-import org.flcit.springboot.web.error.domain.ApiErrorBase;
-import org.flcit.springboot.web.error.domain.ApiErrorTrace;
-import org.flcit.springboot.web.error.domain.ApiErrors;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 
@@ -57,35 +57,38 @@ import org.flcit.springboot.web.error.domain.ApiErrors;
 @ControllerAdvice
 public class ErrorControllerAdvice extends ResponseEntityExceptionHandler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ErrorControllerAdvice.class);
+    private Logger log = LoggerFactory.getLogger(ErrorControllerAdvice.class);
     private static final String CODE_VALIDATION_FAILED = "VALIDATION_FAILED";
     private static final String CODE_MESSAGE_READ_FAILED = "MESSAGE_READ_FAILED";
     private static final String CODE_EXTERNAL_REST_CALL_FAILED = "EXTERNAL_REST_CALL_FAILED";
 
+    @SuppressWarnings("java:S2638")
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest webRequest) {
         log(ex);
         return handleExceptionInternal(ex, buildApiError(webRequest, status.value(), CODE_VALIDATION_FAILED, null, ex.getBindingResult().getAllErrors()), HttpHeaders.EMPTY, status, webRequest);
     }
 
+    @SuppressWarnings("java:S2638")
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+            HttpHeaders headers, HttpStatusCode status, WebRequest webRequest) {
         log(ex);
-        return handleGlobalException(ex, webRequest, CODE_MESSAGE_READ_FAILED, status);
+        return handleGlobalException(ex, webRequest, CODE_MESSAGE_READ_FAILED, HttpStatus.valueOf(status.value()));
     }
 
+    @SuppressWarnings("java:S2638")
     @Override
     protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex,
-            HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+            HttpHeaders headers, HttpStatusCode status, WebRequest webRequest) {
         logAsyncTaskError(ex, webRequest);
-        if (webRequest instanceof ServletWebRequest) {
-            final HttpServletResponse response = ((ServletWebRequest) webRequest).getResponse();
+        if (webRequest instanceof ServletWebRequest servletWebRequest) {
+            final HttpServletResponse response = servletWebRequest.getResponse();
             if (response != null && response.isCommitted()) {
                 return null;
             }
         }
-        return handleGlobalException(ex, webRequest, status);
+        return handleGlobalException(ex, webRequest, HttpStatus.valueOf(status.value()));
     }
 
     /**
@@ -159,24 +162,24 @@ public class ErrorControllerAdvice extends ResponseEntityExceptionHandler {
         return stackTraces ? ex.getStackTrace() : null;
     }
 
-    private static final void logAsyncTaskError(Exception ex, WebRequest webRequest) {
+    private final void logAsyncTaskError(Exception ex, WebRequest webRequest) {
         log(ex, webRequest, true, false);
     }
 
-    private static final void log(Exception ex) {
+    private final void log(Exception ex) {
         log(ex, null, false);
     }
 
-    private static final void log(Exception ex, WebRequest webRequest, boolean withPath) {
+    private final void log(Exception ex, WebRequest webRequest, boolean withPath) {
         log(ex, webRequest, withPath, true);
     }
 
-    private static final void log(Exception ex, WebRequest webRequest, boolean withPath, boolean withException) {
-        if (LOG.isWarnEnabled()) {
+    private final void log(Exception ex, WebRequest webRequest, boolean withPath, boolean withException) {
+        if (log.isWarnEnabled()) {
             if (withException) {
-                LOG.warn(getLogMessage(ex, webRequest, withPath), ex);
+                log.warn(getLogMessage(ex, webRequest, withPath), ex);
             } else {
-                LOG.warn(getLogMessage(ex, webRequest, withPath));
+                log.warn(getLogMessage(ex, webRequest, withPath));
             }
         }
     }

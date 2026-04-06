@@ -112,11 +112,11 @@ class ErrorAutoConfigurationTest implements MockitoBaseTest {
         });
     }
 
-    private static final ResultActions assertGetJsonResponse(AssertableWebApplicationContext context, String path, ApiErrorBase error) throws Exception {
+    private static final ResultActions assertGetJsonResponse(AssertableWebApplicationContext context, String path, ApiErrorBase error) {
         return assertGetJsonResponse(context, path, error, true);
     }
 
-    private static final ResultActions assertGetJsonResponse(AssertableWebApplicationContext context, String path, ApiErrorBase error, boolean strict) throws Exception {
+    private static final ResultActions assertGetJsonResponse(AssertableWebApplicationContext context, String path, ApiErrorBase error, boolean strict) {
         return MvcUtils.assertGetJsonResponse(context, path, HttpStatus.valueOf(error.getStatus()), error, strict);
     }
 
