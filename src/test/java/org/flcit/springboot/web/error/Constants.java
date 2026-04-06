@@ -16,6 +16,7 @@
 
 package org.flcit.springboot.web.error;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,5 +32,14 @@ public final class Constants {
             new ObjectError("pm", "default_message_pm"),
             new FieldError("pp", "name", "default_message_pp_name")
     );
+
+    public static final Method getMethodTest() {
+        for (Method m: Object.class.getMethods()) {
+            if (m.getParameterCount() > 0) {
+                return m;
+            }
+        }
+        throw new IllegalStateException();
+    }
 
 }

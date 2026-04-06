@@ -94,7 +94,7 @@ class TestResource {
 
     @GetMapping(METHOD_ARGUMENT_NOT_VALID_EXCEPTION_PATH)
     public void methodArgumentNotValidException() throws MethodArgumentNotValidException, SecurityException {
-        throw new MethodArgumentNotValidException(new MethodParameter(Object.class.getMethods()[1], 0), new SimpleBindingResult(Constants.ERRORS));
+        throw new MethodArgumentNotValidException(new MethodParameter(Constants.getMethodTest(), 0), new SimpleBindingResult(Constants.ERRORS));
     }
 
     @GetMapping(HTTP_MESSAGE_NOT_READABLE_EXCEPTION_PATH)

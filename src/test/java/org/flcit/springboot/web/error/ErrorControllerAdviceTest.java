@@ -62,7 +62,7 @@ class ErrorControllerAdviceTest implements MockitoBaseTest {
 
     @Test
     void handleMethodArgumentNotValidExceptionTest() throws Exception {
-        final MethodArgumentNotValidException exception = new MethodArgumentNotValidException(new MethodParameter(Object.class.getMethods()[1], 0), bindingResult);
+        final MethodArgumentNotValidException exception = new MethodArgumentNotValidException(new MethodParameter(Constants.getMethodTest(), 0), bindingResult);
         when(bindingResult.getAllErrors()).thenReturn(Collections.emptyList());
         assertInstanceOf(ApiErrorBase.class, tested.handleException(exception, servletWebRequest).getBody());
     }

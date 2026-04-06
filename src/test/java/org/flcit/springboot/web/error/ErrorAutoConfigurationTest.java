@@ -27,9 +27,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
+import org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration;
+import org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration;
+import org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.test.context.assertj.AssertableWebApplicationContext;
 import org.springframework.boot.test.context.runner.WebApplicationContextRunner;
 import org.springframework.core.env.MutablePropertySources;
@@ -112,11 +112,11 @@ class ErrorAutoConfigurationTest implements MockitoBaseTest {
         });
     }
 
-    private static final ResultActions assertGetJsonResponse(AssertableWebApplicationContext context, String path, ApiErrorBase error) throws Exception {
+    private static final ResultActions assertGetJsonResponse(AssertableWebApplicationContext context, String path, ApiErrorBase error) {
         return assertGetJsonResponse(context, path, error, true);
     }
 
-    private static final ResultActions assertGetJsonResponse(AssertableWebApplicationContext context, String path, ApiErrorBase error, boolean strict) throws Exception {
+    private static final ResultActions assertGetJsonResponse(AssertableWebApplicationContext context, String path, ApiErrorBase error, boolean strict) {
         return MvcUtils.assertGetJsonResponse(context, path, HttpStatus.valueOf(error.getStatus()), error, strict);
     }
 
