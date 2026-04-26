@@ -4,7 +4,7 @@
 
     <groupId>org.flcit.springboot.web</groupId>
     <artifactId>springboot-web-error</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -33,7 +33,7 @@
         <connection>scm:git:git@github.com:flc-it/springboot-web-error.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/flc-it/springboot-web-error.git</developerConnection>
         <url>https://github.com/flc-it/springboot-web-error</url>
-        <tag>HEAD</tag>
+        <tag>springboot-web-error-1.0.1</tag>
     </scm>
 
     <!-- Paramètres gestionnaire de ticket -->
