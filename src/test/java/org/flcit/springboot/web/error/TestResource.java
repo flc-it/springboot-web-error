@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
-import org.flcit.springboot.commons.core.exception.NotFoundException;
+import org.flcit.springboot.web.core.exception.NotFoundException;
 import org.flcit.springboot.commons.test.validation.SimpleBindingResult;
 
 @RestController

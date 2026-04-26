@@ -42,7 +42,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 import org.flcit.commons.core.exception.BasicRuntimeException;
-import org.flcit.springboot.commons.core.exception.NoContentException;
+import org.flcit.springboot.web.core.exception.NoContentException;
 import org.flcit.springboot.commons.test.MockitoBaseTest;
 import org.flcit.springboot.commons.test.util.LogTestUtils;
 import org.flcit.springboot.web.error.domain.ApiErrorBase;

@@ -193,9 +193,15 @@ public class ErrorControllerAdvice extends ResponseEntityExceptionHandler {
         return org.springframework.util.StringUtils.hasLength(message) ? message : status.getReasonPhrase();
     }
 
-    private static final HttpStatus getStatus(BasicRuntimeException ex) {
+    private HttpStatus getStatus(BasicRuntimeException ex) {
         final ResponseStatus responseStatus = ex.getClass().getAnnotation(ResponseStatus.class);
-        return responseStatus != null ? responseStatus.value() : HttpStatus.INTERNAL_SERVER_ERROR;
+        if (responseStatus != null) {
+            return responseStatus.value();
+        }
+        if (ex instanceof org.flcit.springboot.commons.core.http.ResponseStatus exStatus) {
+            return HttpStatus.valueOf(exStatus.code());
+        }
+        return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
     private static final ApiErrorBase buildApiError(WebRequest request, int status, String code, String message) {

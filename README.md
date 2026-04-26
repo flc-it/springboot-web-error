@@ -4,10 +4,10 @@
 Le projet *springboot-web-error* est la librairie pour la gestion des erreurs d'une API Spring Boot.
 
 ## Frameworks
-- [Spring boot](https://spring.io/projects/spring-boot) [@2.7.15](https://docs.spring.io/spring-boot/docs/2.7.15/reference/html)
+- [Spring boot](https://spring.io/projects/spring-boot) [@3.5.14](https://docs.spring.io/spring-boot/3.5/index.html)
 
 ## Dependencies
-- [FLC Commons Core](https://github.com/flc-it/springboot-commons-core)
+- [FLC Web Core](https://github.com/flc-it/springboot-web-core)
 
 ## Packages
 **org.flcit.springboot.web.error.domain** => classes de l'objet erreur envoyé à l'appelant
@@ -19,6 +19,9 @@ Ne pas traiter les exceptions dans le code applicatif => elles sont catchées, t
     
 Les exceptions fonctionnelles doivent être catchées dans le code et renvoyées via une Exception du package **org.flcit.springboot.commons.core.exception** adaptée au cas.
 Si il n'y a pas d'exception adaptée, il est possible de créer une classe Exception en étendant l'exception de base **org.flcit.commons.core.exception.BasicRuntimeException**.
+Status du code HTTP de retour :
+- Usage de l'annotation **org.springframework.web.bind.annotation.ResponseStatus**
+- Implémentation de l'interface **org.flcit.springboot.commons.core.http.ResponseStatus**
 
 ## Erreur
 Format de l'erreur renvoyé à l'appelant :
@@ -81,4 +84,4 @@ Body pour remettre sur le niveau de log par défaut :
 En production le niveau de log doit être positionné sur ERROR.
 
 ## Projets dépendants
-- [postgresql-admin-back](https://github.com/flc-it/postgresql-admin-back)
+- [springboot-bench-webserver](https://github.com/flc-it/springboot-bench-webserver)
